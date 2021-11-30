@@ -1,0 +1,17 @@
+try {
+      Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/apotek_1", "root", "");
+      String sql = "" + "SELECT * FROM login WHERE username='"+Cari.getText()+"'";
+      java.sql.Statement stat=con.createStatement();
+      ResultSet res=stat.executeQuery(sql);
+          if(res.next()){
+            String un = res.getString("username");
+                {
+                        Daftar ad = new Daftar(un);
+                        ad.setVisible(true);
+                        setVisible(false);
+                    }
+                } else {
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
