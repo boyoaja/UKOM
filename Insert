@@ -1,0 +1,31 @@
+try{
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/apotek_1", "root", "");
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("Select * from barang where kode = '"+jTextField1.getText()+"'");
+            rs.next();
+            if (rs.getRow()>0){
+                st.close();
+                rs.close();
+                JOptionPane.showMessageDialog(null,"Kode Barang Sudah Ada","Informasi",JOptionPane.INFORMATION_MESSAGE);
+            } else  {
+                st.close();
+                rs.close();
+                PreparedStatement ps = (PreparedStatement) con.prepareStatement("insert into barang(kode,nama,keterangan,image,harga,jumlah) values(?,?,?,?,?,?)");
+                InputStream is = new FileInputStream(new File(s));
+                ps.setString(1, jTextField1.getText());
+                ps.setString(2, jTextField2.getText());
+                ps.setString(3, jTextField3.getText());
+                ps.setBlob(4,is);
+                ps.setString(5,"0");
+                ps.setString(6,"0");
+                ps.executeUpdate();
+                con.close();
+                JOptionPane.showMessageDialog(null,"Data Barang sudah tersimpan","Informasi",JOptionPane.INFORMATION_MESSAGE);
+                jTextField1.setText("");
+                jTextField2.setText("");
+                jTextField3.setText("");
+                labelImageDesplay.setIcon(null);
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
