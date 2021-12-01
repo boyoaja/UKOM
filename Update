@@ -1,17 +1,38 @@
-try {
-      Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/apotek_1", "root", "");
-      String sql = "" + "SELECT * FROM login WHERE username='"+Cari.getText()+"'";
-      java.sql.Statement stat=con.createStatement();
-      ResultSet res=stat.executeQuery(sql);
-          if(res.next()){
-            String un = res.getString("username");
+String jab = jComboBox1.getSelectedItem().toString();
+        String jam = jComboBox2.getSelectedItem().toString();
+        if (jTextField1.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Kolom ID Pegawai Tidak Boleh Kosong!!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            } else{
+                int ok=JOptionPane.showConfirmDialog(null,"Apakah Yakin Untuk Update Data ini???","Confirmation",JOptionPane.YES_NO_OPTION);
+        try {
+            
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/absensi", "root", "");
+                String sql="update tblpegawai set nama = ?, jabatan = ?, id_jam = ?, NoTlp = ?, Alamat = ?, foto = ? where idpegawai = '"+jTextField1.getText()+"'";
+                PreparedStatement st=con.prepareStatement(sql);
+                InputStream is = new FileInputStream(new File(s));
+                if(ok==0)
                 {
-                        Daftar ad = new Daftar(un);
-                        ad.setVisible(true);
-                        setVisible(false);
+                try
+                    {
+                        st.setString(1, jTextField2.getText());
+                        st.setString(2, jab);
+                        st.setString(3, jam);
+                        st.setString(4, jTextField3.getText());
+                        st.setString(5, jTextField6.getText());
+                        st.setBlob(6, is);
+                        st.executeUpdate();
+                        JOptionPane.showMessageDialog(null,"Update Data Sukses");
+                        jTextField1.setText("");
+                        jTextField2.setText("");
+                        jTextField3.setText("");
+                        jTextField6.setText("");
+                        labelImageDesplay.setIcon(null);
+                    }catch (Exception e)
+                    {
+                        JOptionPane.showMessageDialog(null, "Update Data Gagal");
                     }
-                } else {
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }catch (Exception e){
+               JOptionPane.showMessageDialog(null,"Ubah Gambar Untuk Melakukan Update","Informasi",JOptionPane.INFORMATION_MESSAGE);
             }
+         }
