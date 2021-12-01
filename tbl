@@ -1,0 +1,29 @@
+private DefaultTableModel Daftar;
+    private void dt_anggota() {
+        Object kolom []={"Firstname", "Lastname","Username","password","Options"};
+        Daftar=new DefaultTableModel(null,kolom);
+        tblAnggota.setModel(Daftar);
+        jScrollPane5.getViewport().add(tblAnggota,null);
+        try {
+            con = Koneksi.getConnection();
+            String sql = "" + "SELECT * FROM login";
+            java.sql.Statement stat=con.createStatement();
+            ResultSet res=stat.executeQuery(sql);
+            while (res.next()) {
+                String Nama_depan=res.getString("firstname");
+                String Nama_belakang=res.getString("lastname");
+                String Username=res.getString("username");
+                String psw=res.getString("password");
+                String Option=res.getString("options");
+                Object [] data={Nama_depan,Nama_belakang,Username,psw,Option};
+                Daftar.addRow(data);}
+            tblAnggota.getColumnModel().getColumn(0).setPreferredWidth(20);
+            tblAnggota.getColumnModel().getColumn(1).setPreferredWidth(20);
+            tblAnggota.getColumnModel().getColumn(2).setPreferredWidth(20);
+            tblAnggota.getColumnModel().getColumn(3).setPreferredWidth(20);
+            tblAnggota.getColumnModel().getColumn(4).setPreferredWidth(20);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error: "+ex);
+        }
+    }
+}
