@@ -1,0 +1,23 @@
+if (jTextField1.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Kolom ID Pegawai Tidak Boleh Kosong!!", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            }else{
+                int ok=JOptionPane.showConfirmDialog(null,"Apakah Yakin Untuk Menghapus Data ini???","Confirmation",JOptionPane.YES_NO_OPTION);
+         
+        try{
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/absensi", "root", "");
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate("Delete from tblpegawai where idpegawai = '"+jTextField1.getText()+"'");
+            jTextField1.setText("");
+            jTextField2.setText("");
+            jTextField3.setText("");
+            jTextField6.setText("");
+            labelImageDesplay.setIcon(null);
+            JOptionPane.showMessageDialog(null,"Data Delete......!!!");
+
+            con.close();
+
+        }
+        catch(  HeadlessException | SQLException e)
+        {
+            JOptionPane.showMessageDialog(null,e);
+        }
